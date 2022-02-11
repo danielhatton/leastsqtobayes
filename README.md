@@ -83,7 +83,8 @@ over the parameters, given the data set:
 To install and use `leastsqtobayes`, you will need a system on which
 Perl, Gnuplot (version 5.0 or higher), Octave, and GNU Make are
 installed; to explore fully the available test case (see the "testing"
-section below), you will also need the Maxima computer algebra system.
+section below), you will also need the Maxima computer algebra system
+(Dautermann, 2017).
 
 # Installation
 
@@ -228,12 +229,12 @@ that the results should be:
 * first "mutually independent posterior distributions" linear
   combination of parameters and its posterior expectation value and
   standard error:
-  0.8257223485361581*gradient+0.5640767705977013*intercept =
+  0.8257223485361581\*gradient+0.5640767705977013\*intercept =
   10.60(37);
 * second "mutually independent posterior distributions" linear
   combination of parameters and its posterior expectation value and
   standard error:
-  0.5640767705977012*gradient-0.825722348536158*intercept = -2.4(1.0);
+  0.5640767705977012\*gradient-0.825722348536158\*intercept = -2.4(1.0);
 * marginal likelihood: 4.053649961753398e-6;
 * natural logarithm of marginal likelihood: -12.4158928575811.
 
@@ -245,6 +246,8 @@ that the results should be:
 * Crawford, D. (2021, December). _Gnuplot 5.4: An interactive plotting
   program_.  Retrieved from
   <https://web.archive.org/web/20220121095125/www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf>
+* Dautermann, W. (2017, October). _Maxima manual_.  Retrieved from
+  <https://web.archive.org/web/20180602000637/http://maxima.sourceforge.net/docs/manual/maxima.html>
 * Eaton, J. W. (2012, September). GNU Octave: A high-level interactive
   language for numerical computations. _J. Process Control_,
   **22**(8), 1433-1438. doi:`10.1016/j.jprocont.2012.04.006`
