@@ -1,0 +1,868 @@
+#!/usr/bin/perl
+
+# This is file leastsqtobayes
+# written by Dr. Daniel C. Hatton 
+
+# Daniel Hatton can be contacted on <dan.hatton@physics.org> 
+
+# Copyright (C) 2022 Dr. Daniel C. Hatton
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation: version 3 of the License.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program (in file LICENSE).  If not, see
+# <https://www.gnu.org/licenses/>.
+
+# This is a script in Perl.
+
+# Its purpose is to call Gnuplot, in order to use Gnuplot's
+# least-squares fitting capability to fit a user-supplied function,
+# with some adjustable parameters (a list of which is also supplied by
+# the user), to a (once more user-supplied) data set, use the results
+# for Bayesian parameter estimation and model comparison using the
+# leading-order Laplace's method approximations to posterior
+# expectations and standard errors in \citet{Lindley:1980:ABM} and the
+# leading-order Laplace's method approximation to the marginal
+# likelihood set out in \citet{Kass:1992:ABF} and
+# \citet{Kass:1995:BF}.
+
+use strict ;
+use warnings ;
+
+__FILE__ =~ /^(.*)\/bin\/leastsqtobayes$/ ;
+
+my $prefix = $1 ;
+
+my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,
+    $blksize,$blocks) = stat(".") ;
+if (!(-o _)) {
+    printf STDERR "\nCaution!  You are not the owner of the current\n" .
+	"directory.  This program creates and uses temporary files\n" .
+	"with predictable names in the current directory, which in this\n" .
+	"case, is a security flaw.\n" ;
+}
+
+my $permissions = sprintf("%04o",$mode & 07777) ;
+$permissions =~ /\d\d(\d)(\d)/ ;
+my $groupperms = $1 ;
+my $otherperms = $2 ;
+
+if ($groupperms % 4 > 1.5) {
+    printf STDERR "\nCaution!  Other members of your group have write\n" .
+	"permission on the current directory.  This program creates and\n" .
+	"uses temporary files with predictable names in the current\n" .
+	"directory, which in this case, is a security flaw.\n" ;
+}
+
+if ($otherperms % 4 > 1.5) {
+    printf STDERR "\nCaution!  People outside your group have write\n" .
+	"permission on the current directory.  This program creates and\n" .
+	"uses temporary files with predictable names in the current\n" .
+	"directory, which in this case, is a security flaw.\n" ;
+}
+
+if(-e "initialguesses.par") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file initialguesses.par.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "loadinfunction.gp") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file loadinfunction.gp.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if (-e "priorsforoctave.m") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file priorsforoctave.m.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "loadinfunction.gp") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file fitcommand.gp.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "epilogue.gp") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file epilogue.gp.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "fitresults.par") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file fitresults.par.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "gnuplot_outputs.m") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file gnuplot_outputs.m.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "numberofdata.gp") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file numberofdata.gp.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "pickout_epilogue.gp") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file pickout_epilogue.gp.  A file of that\n" .
+	"name already exists!  Check whether its contents are\n" .
+	"valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+    
+}
+
+if(-e "inversesquareoreareffectiveuncertainties.m") {
+
+    die "\nTo work, this program needs to be able to create a\n" .
+	"temporary file inversesquareoreareffectiveuncertainties.m.\n" .
+	"A file of that name already exists!  Check whether its\n" .
+	"contents are valuable, and either move or delete them accordingly\n" .
+	"before running this program.\n" ;
+
+}
+
+my $usrparamsandpriors = $ARGV[0] ;
+my $functionname = $ARGV[1] ;
+my $usrdata = $ARGV[2] ;
+my $singleparamandpriorline ;
+my @params ;
+my @priors ;
+my @firsthyperparameter ;
+my @secondhyperparameter ;
+my @initialguesses ;
+my $fitcommand ;
+my @independentvariables ;
+my $numberofdata ;
+my $pickoutdef ;
+my $otherfitcommand ;
+
+# Read in the user-provided list of adjustble parameters of the model
+# and priors over those parameters
+
+open(USRPARAMSANDPRIORS, "< $usrparamsandpriors") ;
+
+my @columns ;
+my $rownumber = 0 ;
+
+while ($singleparamandpriorline = <USRPARAMSANDPRIORS>) {
+
+    @columns = split(/\s+/, $singleparamandpriorline) ;
+    if ($#columns >= 0.5) {
+	$params[$rownumber] = $columns[0] ;
+	if ($columns[1] eq "lorentzian") {
+	    $priors[$rownumber] = 0 ;
+	    $firsthyperparameter[$rownumber] = 0 ;
+	    $secondhyperparameter[$rownumber] = 0 ;
+	    printf STDERR "\nYou have chosen a Lorentzian prior for\n" .
+		"parameter " . $params[$rownumber] . ".  Take\n" .
+		"care: a Lorentzian prior can make sense only if\n" .
+		"the parameter has quantity dimension 1.\n" ;
+	}
+	elsif ($columns[1] eq "loglorentzian") {
+	    $priors[$rownumber] = 1 ;
+	    $firsthyperparameter[$rownumber] = 0 ;
+	    $secondhyperparameter[$rownumber] = 0 ;
+	    printf STDERR "\nYou have chosen a log Lorentzian prior for\n" .
+		"parameter " . $params[$rownumber] . ".  Take\n" .
+		"care: a log Lorentzian prior can make sense only if\n" .
+		"the quantity of which the parameter is the exponential\n" .
+		"has quantity dimension 1.\n" ;
+	}
+	elsif ($columns[1] eq "truncatedquadratic") {
+	    if ($#columns >= 2.5) {
+		$priors[$rownumber] = 2 ;
+		if ($columns[2] >= $columns[3]) {
+		    die "\nYou have chosen a truncated quadratic prior for\n" .
+			"parameter " . $params[$rownumber] . ", but your\n" .
+			"upper-edge value is not higher than your\n" .
+			"lower-edge value!\n" ;
+		}
+		$firsthyperparameter[$rownumber] = $columns[2] ;
+		$secondhyperparameter[$rownumber] = $columns[3] ;
+	    }
+	    else {
+		die "\nYou have chosen a truncated quadratic prior for\n" .
+		    "parameter " . $params[$rownumber] . ", but you\n" .
+		    "haven't provided lower-edge and upper-edge\n" .
+		    "values.\n" ;
+	    }
+	}
+	elsif ($columns[1] eq "tophat") {
+	    if ($#columns >= 2.5) {
+		$priors[$rownumber] = 3 ;
+		if ($columns[2] >= $columns[3]) {
+		    die "\nYou have chosen a top-hat prior for\n" .
+			"parameter " . $params[$rownumber] . ", but your\n" .
+			"upper-edge value is not higher than your\n" .
+			"lower-edge value!\n" ;
+		}
+		$firsthyperparameter[$rownumber] = $columns[2] ;
+		$secondhyperparameter[$rownumber] = $columns[3] ;
+	    }
+	    else {
+		die "\nYou have chosen a top-hat prior for\n" .
+		    "parameter " . $params[$rownumber] . ", but you\n" .
+		    "haven't provided lower-edge and upper-edge\n" .
+		    "values.\n" ;
+	    }
+	}
+	elsif ($columns[1] eq "tophatwithwings") {
+	    if ($#columns >= 2.5) {
+		$priors[$rownumber] = 4 ;
+		if ($columns[2] >= $columns[3]) {
+		    die "\nYou have chosen a top-hat prior with wings for\n" .
+			"parameter " . $params[$rownumber] . ", but your\n" .
+			"upper-edge value is not higher than your\n" .
+			"lower-edge value!\n" ;
+		}
+		$firsthyperparameter[$rownumber] = $columns[2] ;
+		$secondhyperparameter[$rownumber] = $columns[3] ;
+	    }
+	    else {
+		die "\nYou have chosen a top-hat prior with wings for\n" .
+		    "parameter " . $params[$rownumber] . ", but you\n" .
+		    "haven't provided lower-edge and upper-edge\n" .
+		    "values.\n" ;
+	    }
+	}
+	elsif ($columns[1] eq "truncatedinverse") {
+	    if ($#columns >= 2.5) {
+		$priors[$rownumber] = 5 ;
+		if ($columns[2] >= $columns[3]) {
+		    die "\nYou have chosen a truncated inverse prior for\n" .
+			"parameter " . $params[$rownumber] . ", but your\n" .
+			"upper-edge value is not higher than your\n" .
+			"lower-edge value!\n" ;
+		}
+		$firsthyperparameter[$rownumber] = $columns[2] ;
+		$secondhyperparameter[$rownumber] = $columns[3] ;
+	    }
+	    else {
+		die "\nYou have chosen a truncated inverse prior for\n" .
+		    "parameter " . $params[$rownumber] . ", but you\n" .
+		    "haven't provided lower-edge and upper-edge\n" .
+		    "values.\n" ;
+	    }
+	}
+	elsif ($columns[1] eq "gaussian") {
+	    if ($#columns >= 2.5) {
+		$priors[$rownumber] = 6 ;
+		if ($columns[3] <= 0) {
+		    die "\nYou have chosen a Gaussian prior for\n" .
+			"parameter " . $params[$rownumber] . ", but your\n" .
+			"standard deviation value is nonpositive!\n" ;
+		}
+		$firsthyperparameter[$rownumber] = $columns[2] ;
+		$secondhyperparameter[$rownumber] = $columns[3] ;
+	    }
+	    else {
+		die "\nYou have chosen a truncated inverse prior for\n" .
+		    "parameter " . $params[$rownumber] . ", but you\n" .
+		    "haven't provided lower-edge and upper-edge\n" .
+		    "values.\n" ;
+	    }
+	}
+	else {
+	    die "\nFor parameter " . $params[$rownumber] . ", you\n" .
+		"have chosen a prior form " . $columns[1] . ".\n" .
+		"No such prior form is known to this program.\n" ;
+	}
+    }
+    else {
+	die "\nNo prior specified for parameter " . $columns[0] . "!\n" ;
+    }
+    $rownumber++ ;
+    
+}
+
+close USRPARAMSANDPRIORS ;
+
+# The Octave script that will eventually interpret the outputs from
+# Gnuplot's fitting routine will need to know about the priors.
+# Hence, write them into a file in a form Octave can parse.  While
+# I'm about it, let Octave know the names of the parameters, and
+# where to find certain functions.
+
+open(PRIORSFOROCTAVE, "> priorsforoctave.m") ;
+
+my @numbers = (0..$#params) ;
+
+printf PRIORSFOROCTAVE "paramnames = {" ;
+for (@numbers) {
+    printf PRIORSFOROCTAVE "\"" . $params[$_] . "\"" ;
+    if ($_ < $#params-0.5) {
+	printf PRIORSFOROCTAVE "," ;
+    }
+}
+printf PRIORSFOROCTAVE "} ;\n" ;
+printf PRIORSFOROCTAVE "priorindices = [" ;
+for (@numbers) {
+    printf PRIORSFOROCTAVE $priors[$_] ;
+    if ($_ < $#priors-0.5) {
+	printf PRIORSFOROCTAVE "," ;
+    }
+}
+printf PRIORSFOROCTAVE "] ;\n" ;
+printf PRIORSFOROCTAVE "firsthyperparameters = [" ;
+for (@numbers) {
+    printf PRIORSFOROCTAVE $firsthyperparameter[$_] ;
+    if ($_ < $#priors-0.5) {
+	printf PRIORSFOROCTAVE "," ;
+    }
+}
+printf PRIORSFOROCTAVE "] ;\n" ;
+printf PRIORSFOROCTAVE "secondhyperparameters = [" ;
+for (@numbers) {
+    printf PRIORSFOROCTAVE $secondhyperparameter[$_] ;
+    if ($_ < $#priors-0.5) {
+	printf PRIORSFOROCTAVE "," ;
+    }
+}
+printf PRIORSFOROCTAVE "] ;\n" ;
+
+printf PRIORSFOROCTAVE "addpath(\"" . $prefix .
+    "/share/octave/m/leastsqtobayes\",1) ;\n" ;
+
+
+close PRIORSFOROCTAVE ;
+
+# Build the file of intial guesses at parameter values for passing
+# to Gnuplot
+
+open(FILEOFINITIALGUESSES, "> initialguesses.par") ;
+
+for (@numbers) {
+    if ($priors[$_] < 0.5) {
+	$initialguesses[$_] = &drawfromlorentzian() ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 1.5) {
+	$initialguesses[$_] = &drawfromloglorentzian() ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 2.5) {
+	$initialguesses[$_]
+	    = &drawfromtruncatedquadratic($firsthyperparameter[$_],
+					  $secondhyperparameter[$_]) ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 3.5) {
+	$initialguesses[$_]
+	    = &drawfromtophat($firsthyperparameter[$_],
+			      $secondhyperparameter[$_]) ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 4.5) {
+	$initialguesses[$_]
+	    = &drawfromtophatwithwings($firsthyperparameter[$_],
+				       $secondhyperparameter[$_]) ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 5.5) {
+	$initialguesses[$_]
+	    = &drawfromtruncatedinverse($firsthyperparameter[$_],
+					$secondhyperparameter[$_]) ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    elsif ($priors[$_] < 6.5) {
+	$initialguesses[$_]
+	    = &drawfromgaussian($firsthyperparameter[$_],
+				$secondhyperparameter[$_]) ;
+	printf FILEOFINITIALGUESSES $params[$_] . " = " .
+	    $initialguesses[$_] . "\n" ;
+    }
+    else {
+	die "\nSomething inexplicable has happened!\n" ;
+    }
+}
+
+close FILEOFINITIALGUESSES ;
+
+# Construct the Gnuplot command to load in the user's function
+# specification
+
+open(LOADINFUNCTION,"> loadinfunction.gp") ;
+
+printf LOADINFUNCTION "load \'" . $functionname . ".gp\'\n" ;
+
+close LOADINFUNCTION ;
+
+# Construct the Gnuplot fit command; start by reading the user's
+# function definition...
+
+open(USRFUNCTION, "< ${functionname}.gp") ;
+my $functiondef = <USRFUNCTION> ;
+
+while (!($functiondef =~ /${functionname}\(.+\)\s*\=\s*\S+/)) {
+
+    $functiondef = <USRFUNCTION> ;
+
+}
+
+$functiondef =~ /${functionname}\((.+)\)\s*\=\s*\S+/ ;
+@independentvariables = split(/\s*\,\s*/, $1) ;
+
+close USRFUNCTION ;
+if ($#independentvariables < -0.5) {
+    die "Gnuplot fit won't handle a function with no declared independent\n" .
+	"variables!  However, if your model really is that the\n" .
+	"(expectation over the forward probability distribution of\n" .
+	"the) dependent variable is a constant, there's nothing to\n" .
+	"stop you declaring an independent variable on which the\n" .
+	"right-hand side of the function definition does not, in\n" .
+	"fact, depend." ;
+}
+
+# ... then the fit command is
+
+$fitcommand = "fit " . $functionname . "(" ;
+
+my @morenumbers = (0..($#independentvariables+1)) ;
+
+if ($#independentvariables < 0.5) {
+    $fitcommand = $fitcommand . "x" ;
+}
+elsif ($#independentvariables < 1.5) {
+    $fitcommand = $fitcommand . "x,y" ;
+}
+else {
+    for (@morenumbers) {
+	$fitcommand = $fitcommand . "x" . ($_+1) ;
+	if ($_ < $#independentvariables-0.5) {
+	    $fitcommand = $fitcommand . "," ;
+	}
+    }
+}
+
+$fitcommand = $fitcommand . ") \'" . $usrdata . "\' using " ;
+
+for (@morenumbers) {
+    $fitcommand = $fitcommand . "(\$" . (2*$_+1) . "):" ;
+}
+for (@morenumbers) {
+    $fitcommand = $fitcommand . "(\$" . (2*$_+2) . ")" ;
+    if ($_ < $#independentvariables+0.5) {
+	$fitcommand = $fitcommand . ":" ;
+    }
+}
+
+$fitcommand = $fitcommand . " errors " ;
+if ($#independentvariables < 0.5) {
+    $fitcommand = $fitcommand . "x,z" ;
+}
+elsif ($#independentvariables < 1.5) {
+    $fitcommand = $fitcommand . "x,y,z" ;
+}
+else {
+    for (@morenumbers) {
+	$fitcommand = $fitcommand . "x" . ($_+1) . "," ;
+    }
+    $fitcommand = $fitcommand . "z" ;
+}
+
+$fitcommand = $fitcommand . " via \'initialguesses.par\'" ;
+
+open (FITCOMMAND, "> fitcommand.gp") ;
+
+printf FITCOMMAND $fitcommand . "\n" ;
+
+close FITCOMMAND ;
+
+# Construct an epilogue to the main Gnuplot script to send the fitting
+# results to an Octave M-file in a format convenient for an Octave
+# script to pick them up.
+
+open(EPILOGUE, "> epilogue.gp") ;
+
+printf EPILOGUE "set print \'gnuplot_outputs.m\'\n" ;
+
+printf EPILOGUE
+    "print \'differencebetweennumberofdataandnumberofparams = \', " .
+    "FIT_NDF, \' ;\'\n" ;
+
+printf EPILOGUE "print \'paramvaluesatminchisquared = [\'" ;
+for (@numbers) {
+    printf EPILOGUE ", " . $params[$_] ;
+    if ($_ < $#params-0.5) {
+	printf EPILOGUE ", \',\'" ;
+    }
+}
+printf  EPILOGUE ", \'] ;\'\n" ;
+
+printf EPILOGUE "print \'minchisquared = \', FIT_WSSR, \' ;\'\n" ;
+
+# In what follows, when I say "Hessian", I mean the Hessian of
+# chi-squared, not the Hessian of the natural-log-likelihood.
+# Conveniently enough, "double the inverse Hessian" of chi-squared is
+# the same as minus the inverse Hessian of the natural-log-likelihood.
+
+printf EPILOGUE
+    "print " .
+    "\'squarerootsofdiagonalelementsofdoubletheinversehessianatminchisquared" .
+    " = [\'" ;
+for (@numbers) {
+    printf EPILOGUE ", " . $params[$_] . "_err" ;
+    if ($_ < $#params-0.5) {
+	printf EPILOGUE ", \',\'" ;
+    }
+}
+printf  EPILOGUE ", \'] ;\'\n" ;
+
+printf EPILOGUE "print \'doubletheinversehessianatminchisquared" .
+    " = [\'" ;
+
+for my $anotherrownumber (@numbers) {
+    for my $columnnumber (@numbers) {
+	printf EPILOGUE ", FIT_COV_" . $params[$anotherrownumber] .
+	    "_" . $params[$columnnumber] ;
+	if ($columnnumber < $#params-0.5) {
+	    printf EPILOGUE ", \',\'" ;
+	}
+    }
+    if ($anotherrownumber < $#params-0.5) {
+	printf  EPILOGUE ", \';\'" ;
+    }
+}
+printf  EPILOGUE ", \'] ;\'\n" ;
+
+printf EPILOGUE "save fit \'fitresults.par\'\n" ;
+printf EPILOGUE "numberofparams = " . ($#params+1) . "\n" ;
+printf EPILOGUE "numberofdata = FIT_NDF+numberofparams\n" ;
+
+# Both the other Gnuplot script (see below) and this Perl script
+# need to know the number of data points, so output them as a
+# mini-Gunuplot script (which Perl will also be able to parse).
+
+printf EPILOGUE "set print \'numberofdata.gp\'\n" ;
+printf EPILOGUE "print \'numberofdata = \', numberofdata\n" ;
+
+close EPILOGUE ;
+
+# Now call Gnuplot to do the actual least-squares fitting
+
+my $gnuplot_stdout
+    = `gnuplot ${prefix}/share/gnuplot/gnuplot/leastsqtobayes_dothefit.gp 2>&1` ;
+
+open(NUMBEROFDATA, "< numberofdata.gp") ;
+
+my $numberofdataline = <NUMBEROFDATA> ;
+
+$numberofdataline =~ /numberofdata\s*\=\s*(\S+)$/ ;
+$numberofdata = $1 ;
+
+close NUMBEROFDATA ;
+
+# The marginal likelihood calculation needs the product of all the
+# \citet{Orear:1982:LSB} effective uncertainties.  Gnuplot's USP for
+# involvement in this project is that it uses \citet{Orear:1982:LSB}
+# effective uncertainties, but unfortunately, it keeps their values to
+# itself.  The pickout script is a workaround to expose those values
+# externally.
+
+open(PICKOUT_EPILOGUE,"> pickout_epilogue.gp") ;
+
+$pickoutdef = "pickout(" ;
+
+if ($#independentvariables < 0.5) {
+    $pickoutdef = $pickoutdef . "x," ;
+}
+else {
+    for (@morenumbers) {
+	$pickoutdef = $pickoutdef . "x" . ($_+1) ;
+	$pickoutdef = $pickoutdef . "," ;
+    }
+}
+
+$pickoutdef = $pickoutdef .
+    "thenumber,currentrow) = abs(currentrow-thenumber) < 0.5 ? " ;
+$pickoutdef = $pickoutdef . $functionname . "(" ;
+
+if ($#independentvariables < 0.5) {
+    $pickoutdef = $pickoutdef . "x" ;
+}
+else {
+    for (@morenumbers) {
+	$pickoutdef = $pickoutdef . "x" . ($_+1) ;
+	if ($_ < $#independentvariables-0.5) {
+	    $pickoutdef = $pickoutdef . "," ;
+	}
+    }
+}
+
+$pickoutdef = $pickoutdef . ")+1.0 : " ;
+$pickoutdef = $pickoutdef . $functionname . "(" ;
+
+if ($#independentvariables < 0.5) {
+    $pickoutdef = $pickoutdef . "x" ;
+}
+else {
+    for (@morenumbers) {
+	$pickoutdef = $pickoutdef . "x" . ($_+1) ;
+	if ($_ < $#independentvariables-0.5) {
+	    $pickoutdef = $pickoutdef . "," ;
+	}
+    }
+}
+
+$pickoutdef = $pickoutdef . ")" ;
+
+printf PICKOUT_EPILOGUE $pickoutdef . "\n" ;
+
+# The Gnuplot manual mentions both of the following approaches for
+# setting a maximum number of iterations.
+# I don't know which is right in the current version of Gnuplot,
+# but I guess it's harmless to do both.
+printf PICKOUT_EPILOGUE "set fit maxiter 1\n" ;
+printf PICKOUT_EPILOGUE "FIT_MAXITER = 1\n" ;
+
+printf PICKOUT_EPILOGUE
+    "array inversesquareoreareffectiveuncertainties[numberofdata]\n" ;
+printf PICKOUT_EPILOGUE "do for [currentrow = 1:numberofdata] {\n" ;
+
+
+$otherfitcommand = "fit pickout(" ;
+
+if ($#independentvariables < 0.5) {
+    $otherfitcommand = $otherfitcommand . "x,y," ;
+}
+else {
+    for (@morenumbers) {
+	$otherfitcommand = $otherfitcommand . "x" . ($_+1) ;
+	$otherfitcommand = $otherfitcommand . "," ;
+    }
+    $otherfitcommand = $otherfitcommand . "x"
+	. ($morenumbers[$#morenumbers]+2) ;
+    $otherfitcommand = $otherfitcommand . "," ;
+}
+
+$otherfitcommand = $otherfitcommand . "currentrow) \'" . $usrdata .
+    "\' using " ;
+
+for (@morenumbers) {
+    if ($_ >= $#morenumbers-0.5) {
+	$otherfitcommand = $otherfitcommand . "(\$0):" ;
+    }
+    $otherfitcommand = $otherfitcommand . "(\$" . (2*$_+1) . "):" ;
+}
+for (@morenumbers) {
+    if ($_ >= $#morenumbers-0.5) {
+	$otherfitcommand = $otherfitcommand . "(0.0):" ;
+    }
+    $otherfitcommand = $otherfitcommand . "(\$" . (2*$_+2) . ")" ;
+    if ($_ < $#morenumbers-0.5) {
+	$otherfitcommand = $otherfitcommand . ":" ;
+    }
+}
+
+$otherfitcommand = $otherfitcommand . " errors " ;
+if ($#independentvariables < 0.5) {
+    $otherfitcommand = $otherfitcommand . "x,y,z" ;
+}
+else {
+    for (@morenumbers) {
+	$otherfitcommand = $otherfitcommand . "x" . ($_+1) . "," ;
+    }
+    $otherfitcommand = $otherfitcommand . "x"
+	. ($morenumbers[$#morenumbers]+2) . "," ;
+    $otherfitcommand = $otherfitcommand . "z" ;
+}
+
+$otherfitcommand = $otherfitcommand . " via \'fitresults.par\'" ;
+
+printf PICKOUT_EPILOGUE $otherfitcommand . "\n" ;
+printf PICKOUT_EPILOGUE
+    "inversesquareoreareffectiveuncertainties[currentrow] = FIT_WSSR\n" ;
+
+printf PICKOUT_EPILOGUE "}\n" ;
+
+printf PICKOUT_EPILOGUE
+    "set print \'inversesquareoreareffectiveuncertainties.m\'\n" ;
+
+printf PICKOUT_EPILOGUE "print \'inversesquareoreareffectiveuncertainties = [\'," ;
+
+my @datapoints = (1..$numberofdata) ;
+
+for my $datumnumber (@datapoints) {
+    printf PICKOUT_EPILOGUE
+	"inversesquareoreareffectiveuncertainties[" .
+	$datumnumber . "], " ;
+    if ($datumnumber < $numberofdata-0.5) {
+	printf PICKOUT_EPILOGUE "\', \'," ;
+    }
+}
+printf PICKOUT_EPILOGUE "\'] ;\'\n" ;
+
+close PICKOUT_EPILOGUE ;
+
+my $more_gnuplot_stdout
+    = `gnuplot ${prefix}/share/gnuplot/gnuplot/leastsqtobayes_pickout.gp 2>&1` ;
+
+# Get rid of temporary files that are no longer needed
+
+unlink("loadinfunction.gp", "initialguesses.par", "fitcommand.gp",
+       "epilogue.gp", "fitresults.par", "numberofdata.gp",
+       "pickout_epilogue.gp") ;
+
+# Run the Octave script that inteprets the results in Bayesian
+# terms
+
+my $octaveoutput
+    = `octave ${prefix}/share/octave/m/leastsqtobayes/interpret.m` ;
+
+printf STDOUT "\n" . $octaveoutput . "\n" ;
+
+# Get rid of some temporary files that are no longer needed
+
+unlink("gnuplot_outputs.m",
+       "inversesquareoreareffectiveuncertainties.m",
+       "priorsforoctave.m") ;
+
+sub drawfromlorentzian {
+
+    # Draw a sample from a Lorentzian distribution; or rather,
+    # contract out doing that to Octave
+
+    my $theoutput = `octave ${prefix}/share/octave/m/leastsqtobayes/drawfromlorentzian_ext.m 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromloglorentzian {
+
+    # Draw a sample from a log Lorentzian distribution; or rather,
+    # contract out doing that to Octave
+
+    my $theoutput = `octave ${prefix}/share/octave/m/leastsqtobayes/drawfromloglorentzian_ext.m 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromtruncatedquadratic {
+
+    # Draw a sample from a truncated quadratic distribution; or rather,
+    # contract out doing that to Octave
+
+    my ($lowedge,$highedge) = @_ ;
+    my $theoutput
+	=
+	`octave ${prefix}/share/octave/m/leastsqtobayes/drawfromtruncatedquadratic_ext.m $lowedge $highedge 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromtophat {
+
+    # Draw a sample from a top-hat distribution; or rather, contract
+    # out doing that to Octave
+
+    my ($lowedge,$highedge) = @_ ;
+    my $theoutput
+	= `octave ${prefix}/share/octave/m/leastsqtobayes/drawfromtophat_ext.m $lowedge $highedge 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromtophatwithwings {
+
+    # Draw a sample from a top-hat with wings distribution; or rather,
+    # contract out doing that to Octave
+
+    my ($lowedge,$highedge) = @_ ;
+    my $theoutput
+	=
+	`octave ${prefix}/share/octave/m/leastsqtobayes/drawfromtophatwithwings_ext.m $lowedge $highedge 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromtruncatedinverse {
+
+    # Draw a sample from a truncated inverse distribution; or rather,
+    # contract out doing that to Octave
+
+    my ($lowedge,$highedge) = @_ ;
+    my $theoutput
+	=
+	`octave ${prefix}/share/octave/m/leastsqtobayes/drawfromtruncatedinverse_ext.m $lowedge $highedge 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}
+
+sub drawfromgaussian {
+
+    # Draw a sample from a Gaussian distribution; or rather, contract
+    # out doing that to Octave
+
+    my ($mean,$stddev) = @_ ;
+    my $theoutput
+	= `octave ${prefix}/share/octave/m/leastsqtobayes/drawfromgaussian_ext.m $mean $stddev 2>/dev/null` ;
+    $theoutput =~ s/ans\ +\=\ +// ;
+    $theoutput =~ s/\n// ;
+    return $theoutput ;
+    
+}

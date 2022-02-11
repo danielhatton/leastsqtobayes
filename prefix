@@ -1,0 +1,4 @@
+push @INC, \&prefix ;
+sub prefix {
+return "/usr/local" ;
+}
