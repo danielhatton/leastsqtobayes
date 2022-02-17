@@ -68,105 +68,105 @@ if ($otherperms % 4 > 1.5) {
 	"directory, which in this case, is a security flaw.\n" ;
 }
 
-if(-e "initialguesses.par") {
+# if(-e "initialguesses.par") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file initialguesses.par.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file initialguesses.par.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "loadinfunction.gp") {
+# if(-e "loadinfunction.gp") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file loadinfunction.gp.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file loadinfunction.gp.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if (-e "priorsforoctave.m") {
+# if (-e "priorsforoctave.m") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file priorsforoctave.m.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file priorsforoctave.m.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "loadinfunction.gp") {
+# if(-e "loadinfunction.gp") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file fitcommand.gp.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file fitcommand.gp.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "epilogue.gp") {
+# if(-e "epilogue.gp") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file epilogue.gp.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file epilogue.gp.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "fitresults.par") {
+# if(-e "fitresults.par") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file fitresults.par.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file fitresults.par.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "gnuplot_outputs.m") {
+# if(-e "gnuplot_outputs.m") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file gnuplot_outputs.m.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file gnuplot_outputs.m.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "numberofdata.gp") {
+# if(-e "numberofdata.gp") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file numberofdata.gp.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file numberofdata.gp.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "pickout_epilogue.gp") {
+# if(-e "pickout_epilogue.gp") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file pickout_epilogue.gp.  A file of that\n" .
-	"name already exists!  Check whether its contents are\n" .
-	"valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file pickout_epilogue.gp.  A file of that\n" .
+# 	"name already exists!  Check whether its contents are\n" .
+# 	"valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
     
-}
+# }
 
-if(-e "inversesquareoreareffectiveuncertainties.m") {
+# if(-e "inversesquareoreareffectiveuncertainties.m") {
 
-    die "\nTo work, this program needs to be able to create a\n" .
-	"temporary file inversesquareoreareffectiveuncertainties.m.\n" .
-	"A file of that name already exists!  Check whether its\n" .
-	"contents are valuable, and either move or delete them accordingly\n" .
-	"before running this program.\n" ;
+#     die "\nTo work, this program needs to be able to create a\n" .
+# 	"temporary file inversesquareoreareffectiveuncertainties.m.\n" .
+# 	"A file of that name already exists!  Check whether its\n" .
+# 	"contents are valuable, and either move or delete them accordingly\n" .
+# 	"before running this program.\n" ;
 
-}
+# }
 
 my $usrparamsandpriors = $ARGV[0] ;
 my $functionname = $ARGV[1] ;
@@ -672,7 +672,7 @@ printf PICKOUT_EPILOGUE
     "array inversesquareoreareffectiveuncertainties[numberofdata]\n" ;
 printf PICKOUT_EPILOGUE "do for [currentrow = 1:numberofdata] {\n" ;
 
-
+printf PICKOUT_EPILOGUE "load \'fitresults.par\'\n" ;
 $otherfitcommand = "fit pickout(" ;
 
 if ($#independentvariables < 0.5) {
@@ -691,11 +691,25 @@ else {
 $otherfitcommand = $otherfitcommand . "currentrow) \'" . $usrdata .
     "\' using " ;
 
+my $dummyfunction = "(" . $functionname . "(" ;
+for (@morenumbers) {
+    if ($_ < $#morenumbers-1.5) {
+	$dummyfunction = $dummyfunction . "\$" . (2*$_+1) . "," ;
+    }
+    elsif ($_ < $#morenumbers-0.5) {
+	$dummyfunction = $dummyfunction . "\$" . (2*$_+1) ;
+    }
+}
+$dummyfunction = $dummyfunction . "))" ;
+
 for (@morenumbers) {
     if ($_ >= $#morenumbers-0.5) {
-	$otherfitcommand = $otherfitcommand . "(\$0):" ;
+	$otherfitcommand = $otherfitcommand . "(\$0+1.0):" . $dummyfunction .
+	    ":" ;
     }
-    $otherfitcommand = $otherfitcommand . "(\$" . (2*$_+1) . "):" ;
+    else {
+	$otherfitcommand = $otherfitcommand . "(\$" . (2*$_+1) . "):" ;
+    }
 }
 for (@morenumbers) {
     if ($_ >= $#morenumbers-0.5) {
@@ -728,33 +742,59 @@ printf PICKOUT_EPILOGUE
 
 printf PICKOUT_EPILOGUE "}\n" ;
 
-printf PICKOUT_EPILOGUE
-    "set print \'inversesquareoreareffectiveuncertainties.m\'\n" ;
-
-printf PICKOUT_EPILOGUE "print \'inversesquareoreareffectiveuncertainties = [\'," ;
-
-my @datapoints = (1..$numberofdata) ;
-
-for my $datumnumber (@datapoints) {
-    printf PICKOUT_EPILOGUE
-	"inversesquareoreareffectiveuncertainties[" .
-	$datumnumber . "], " ;
-    if ($datumnumber < $numberofdata-0.5) {
-	printf PICKOUT_EPILOGUE "\', \'," ;
-    }
-}
-printf PICKOUT_EPILOGUE "\'] ;\'\n" ;
 
 close PICKOUT_EPILOGUE ;
 
 my $more_gnuplot_stdout
     = `gnuplot ${prefix}/share/gnuplot/gnuplot/leastsqtobayes_pickout.gp 2>&1` ;
 
+# Parse the Orear-type effective errors out of what Gnuplot sent to
+# standard output, and put them in an Octave script.  This is risky:
+# there's no particular reason the formatting of what's sent to STDOUT
+# should stay sufficiently the same from one Gnuplot version to the next
+# for this parser to keep working; and even within the current version of
+# Gnuplot, I've no way of being sure that the chi-squared value on the
+# first iteration will always be presented in the scientific format I
+# assume here
+
+my @lotsoflines = split(/\n/,$more_gnuplot_stdout) ;
+my $itsthenextone = 0 ;
+my @orearinversesquareuncertainties ;
+for my $thisline (@lotsoflines) {
+    if ($itsthenextone > 0.5) {
+	if ($thisline =~ /^\s*0\s+\-?\d\.\d+e[\+|\-]\d\d/) {
+	    $thisline =~ /^\s*0\s+(\-?\d\.\d+e[\+|\-]\d\d)/ ;
+	    $orearinversesquareuncertainties[$#orearinversesquareuncertainties+1]
+		= $1 ;
+	}
+	$itsthenextone-- ;
+    }
+    if ($thisline =~ /^\s*iter\s+chisq/) {
+	$itsthenextone++ ;
+    }
+}
+
+open(OREARFILE, "> inversesquareoreareffectiveuncertainties.m") ;
+
+printf OREARFILE "inversesquareoreareffectiveuncertainties = [" ;
+
+my @datapoints = (1..$numberofdata) ;
+for my $datumnumber (@datapoints) {
+    printf OREARFILE
+	$orearinversesquareuncertainties[$datumnumber-1] ;
+    if ($datumnumber < $numberofdata-0.5) {
+	printf OREARFILE "," ;
+    }
+}
+printf OREARFILE "] ;\n" ;
+
+close OREARFILE ;
+
 # Get rid of temporary files that are no longer needed
 
-unlink("loadinfunction.gp", "initialguesses.par", "fitcommand.gp",
-       "epilogue.gp", "fitresults.par", "numberofdata.gp",
-       "pickout_epilogue.gp") ;
+# unlink("loadinfunction.gp", "initialguesses.par", "fitcommand.gp",
+#        "epilogue.gp", "fitresults.par", "numberofdata.gp",
+#        "pickout_epilogue.gp") ;
 
 # Run the Octave script that inteprets the results in Bayesian
 # terms
@@ -766,9 +806,9 @@ printf STDOUT "\n" . $octaveoutput . "\n" ;
 
 # Get rid of some temporary files that are no longer needed
 
-unlink("gnuplot_outputs.m",
-       "inversesquareoreareffectiveuncertainties.m",
-       "priorsforoctave.m") ;
+# unlink("gnuplot_outputs.m",
+#        "inversesquareoreareffectiveuncertainties.m",
+#        "priorsforoctave.m") ;
 
 sub drawfromlorentzian {
 
