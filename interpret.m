@@ -179,8 +179,8 @@ for priornumber = [1:columns(priorindices)]
   endif
 endfor
 
-if abs(prioratminchisquared) < 8*realmin()
-  # Is this the best way to test for a quantity being zero?
+if -real(naturallogofprioratminchisquared) > realmax()/8
+  # Is this the best way to test for the prior being zero?
   disp("") ;
   error("The prior probability density functon over parameters\nis zero at the point in parameter space where chi-squared is at\nits minimum.  In this case, Laplace's method is still capable of\nsupplying leading-order estimates of the various moments this\nprogram seeks to calculate, but via formulas radically different\nfrom those that apply if the minimum value of chi-squared occurs\nin a region where the prior is non-zero.  This program does not\ncontain the formulas appropriate to a case where the minimum\nchi-squared occurs in a region of zero prior, and therefore\ncannot give you a good answer in this case.") ;
 endif
