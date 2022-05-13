@@ -27,4 +27,4 @@
 
 addpath(fileparts(mfilename('fullpath'))) ;
 output_precision(floor(-log(eps(1))/log(10))) ;
-drawfromtruncatedquadratic(argv(1),argv(2))
+drawfromtruncatedquadratic(str2num(argv(){1}),str2num(argv(){2}))
