@@ -148,6 +148,11 @@ install : leastsqtobayes dothefit.gp pickout.gp
 	chown($$uidofroot, $$gidofroot, $$prefix . "/share/octave/m/leastsqtobayes/isouncert.m") ;
 	chmod(0644, $$prefix . "/share/octave/m/leastsqtobayes/isouncert.m") ;
 
+README.md : README_raw.md README.bib
+
+	system("pandoc README_raw.md -t markdown-citations -o README.md --bibliography README.bib") ;
+
 clean :
 
 	unlink("prefix") ;
+	unlink("README.md) ;
