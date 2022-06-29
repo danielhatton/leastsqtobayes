@@ -410,3 +410,4 @@ that the results should be:
   0.5640767705977012\*gradient-0.825722348536158\*intercept = -2.4(1.0);
 * marginal likelihood: 4.053649961753398e-6;
 * natural logarithm of marginal likelihood: -12.4158928575811.
+
