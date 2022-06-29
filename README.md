@@ -1,10 +1,6 @@
 About this documentation file
 =============================
 
-[comment](#%20%60README_raw.md%60%20was%20written%20by%20Dr.%20Daniel%20C.%20Hatton):
-\# `README_raw.md` is the documentation for software package
-`leastsqtobayes` (see "Description" section below).
-
 Copyright (C) 2022 Dr. Daniel C. Hatton
 
 This program is free software: you can redistribute it and/or modify it

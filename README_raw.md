@@ -1,10 +1,10 @@
 # About this documentation file
 
-[comment]: # This is file `README_raw.md`
+[comment1]: # (This is file `README_raw.md`)
 
-[comment]: # `README_raw.md` is the documentation for software package `leastsqtobayes` (see "Description" section below).
+[comment2]: # (`README_raw.md` is the documentation for software package `leastsqtobayes` (see "Description" section below).)
 
-[comment]: # `README_raw.md` was written by Dr. Daniel C. Hatton
+[comment3]: # (`README_raw.md` was written by Dr. Daniel C. Hatton)
 
 Copyright (C) 2022 Dr. Daniel C. Hatton
 
