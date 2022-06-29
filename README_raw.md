@@ -43,6 +43,7 @@ model comparison.
 # Scope
 
 The situation to which this softare is relevant is one in which:
+
 * it is thought possible that the value of some dependent variable
   depends on the values of some collection of zero or more independent
   variables;
@@ -219,6 +220,7 @@ fitting, to a failure to use these formulae.
 The software outputs the leading-order Laplace's method approximations
 to the following moments of the posterior probability distribution
 over the parameters, given the data set:
+
 * the posterior expectation of each parameter, computed using a single
   application of equation 3 of @Lindley:1980:ABM;
 * the posterior marginal standard error of each parameter, computed
@@ -235,7 +237,7 @@ over the parameters, given the data set:
 * the posterior expectation of each of those linear combinations of
   the parameters, computed using a single application of equation 3 of
   @Lindley:1980:ABM;
-  * the posterior standard error of each of those linear combinations of
+* the posterior standard error of each of those linear combinations of
   the parameters, computed using two applications of equation 3 of
   @Lindley:1980:ABM as above (there's no distinction between marginal
   standard error and conditional standard error in the case where the
@@ -315,6 +317,7 @@ the table in `<usr_params_and_priors.par>` needs to contain the
 selection of prior probability distribution over each parameter named
 in the first column.  The string in the second column of any given row
 should be one of:
+
 * `lorentzian` for the Lorentzian prior proposed by @Jeffreys:1961:TP
   as a noniformative prior for a location parameter: be aware that,
   because this gives special status to unity as a parameter value, it
@@ -387,6 +390,7 @@ determined by hand or using a computer algebra system.  The file
 `otherway.mc`, within the `EXAMPLES` directory, is a script for the
 Maxima computer algebra system that does exactly this, and reveals
 that the results should be:
+
 * posterior expectation value and marginal standard error of gradient
   parameter: 7.41(46);
 * posterior expectation value and marginal standard error of intercept

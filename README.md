@@ -39,22 +39,26 @@ directly in model comparison.
 Scope
 =====
 
-The situation to which this softare is relevant is one in which: \* it
-is thought possible that the value of some dependent variable depends on
-the values of some collection of zero or more independent variables; \*
-there exists a data set of empirical measurements of the value of the
-dependent variable, each accompanied by empirical measurements of the
-corresponding values of all of the independent variables; \* there
-exists at least one theoretical model for predicting the value of the
-dependent variable from the values of the independent variables; \* each
-theoretical model contains zero or more adjustable parameters,
-i.e. quantities that are asserted in the theoretical model to be
-constant, and which affect the mapping from independent variable values
-to dependent variable value, but whose exact values are not known a
-priori as part of the model; and \* one wishes to infer from the data
-set the values of any adjustable parameters in the theoretical models,
-and, if there is more than one theoretical model, which of the
-theoretical models is most probably true.
+The situation to which this softare is relevant is one in which:
+
+-   it is thought possible that the value of some dependent variable
+    depends on the values of some collection of zero or more independent
+    variables;
+-   there exists a data set of empirical measurements of the value of
+    the dependent variable, each accompanied by empirical measurements
+    of the corresponding values of all of the independent variables;
+-   there exists at least one theoretical model for predicting the value
+    of the dependent variable from the values of the independent
+    variables;
+-   each theoretical model contains zero or more adjustable parameters,
+    i.e. quantities that are asserted in the theoretical model to be
+    constant, and which affect the mapping from independent variable
+    values to dependent variable value, but whose exact values are not
+    known a priori as part of the model; and
+-   one wishes to infer from the data set the values of any adjustable
+    parameters in the theoretical models, and, if there is more than one
+    theoretical model, which of the theoretical models is most probably
+    true.
 
 Background
 ==========
@@ -215,29 +219,34 @@ Outputs
 
 The software outputs the leading-order Laplace's method approximations
 to the following moments of the posterior probability distribution over
-the parameters, given the data set: \* the posterior expectation of each
-parameter, computed using a single application of equation 3 of Lindley
-(1980); \* the posterior marginal standard error of each parameter,
-computed using two applications of equation 3 of Lindley (1980) (one to
-compute the posterior expectation of the square of the parameter, one to
-compute the posterior expectation of the parameter itself; \* the
-posterior conditional (on the other parameters taking their expectation
-values) standard error of each parameter, computed using two
-applications of equation 3 of Lindley (1980) as above; \* the
-coefficients needed to construct linear combinations of the parameters
-over which the posterior probability distributions are (to leading
-order) mutually independent, as described by Atzinger (1970); \* the
-posterior expectation of each of those linear combinations of the
-parameters, computed using a single application of equation 3 of Lindley
-(1980); \* the posterior standard error of each of those linear
-combinations of the parameters, computed using two applications of
-equation 3 of Lindley (1980) as above (there's no distinction between
-marginal standard error and conditional standard error in the case where
-the posterior probability distributions are mutually independent); and
-\* the marginal likelihood of the model, computed using equation 5 of
-Kass and Raftery (1995), for use in the model-comparison step of
-Bayesian inference, i.e. in determining the relative probability that
-each model is correct in the case where there is more than one model.
+the parameters, given the data set:
+
+-   the posterior expectation of each parameter, computed using a single
+    application of equation 3 of Lindley (1980);
+-   the posterior marginal standard error of each parameter, computed
+    using two applications of equation 3 of Lindley (1980) (one to
+    compute the posterior expectation of the square of the parameter,
+    one to compute the posterior expectation of the parameter itself;
+-   the posterior conditional (on the other parameters taking their
+    expectation values) standard error of each parameter, computed using
+    two applications of equation 3 of Lindley (1980) as above;
+-   the coefficients needed to construct linear combinations of the
+    parameters over which the posterior probability distributions are
+    (to leading order) mutually independent, as described by
+    Atzinger (1970);
+-   the posterior expectation of each of those linear combinations of
+    the parameters, computed using a single application of equation 3 of
+    Lindley (1980);
+-   the posterior standard error of each of those linear combinations of
+    the parameters, computed using two applications of equation 3 of
+    Lindley (1980) as above (there's no distinction between marginal
+    standard error and conditional standard error in the case where the
+    posterior probability distributions are mutually independent); and
+-   the marginal likelihood of the model, computed using equation 5 of
+    Kass and Raftery (1995), for use in the model-comparison step of
+    Bayesian inference, i.e. in determining the relative probability
+    that each model is correct in the case where there is more than one
+    model.
 
 Prerequisites
 =============
@@ -310,45 +319,52 @@ As outlined in the "invocation" section above, the second column of the
 table in `<usr_params_and_priors.par>` needs to contain the selection of
 prior probability distribution over each parameter named in the first
 column. The string in the second column of any given row should be one
-of: \* `lorentzian` for the Lorentzian prior proposed by Jeffreys (1961)
-as a noniformative prior for a location parameter: be aware that,
-because this gives special status to unity as a parameter value, it can
-(Jeffreys 1961) be appropriate only if the parameter has quantity
-dimension 1; \* `loglorentzian` for the prior distribution over the
-parameter that is equivalent to a Lorentzian prior over the natural
-logarithm of the parameter, i.e. the prior that is to a scale parameter
-as a Lorentzian prior is to a location parameter; \*
-`truncatedquadratic` for the truncated quadratic prior proposed by
-Jeffreys (1961) as an otherwise noniformative prior for a parameter
-whose value is known to lie between a lower bound and an upper bound: in
-this case, there should be two further columns in the relevant row of
-the table, with the third column containing the lower-bound value of the
-parameter, and the fourth column containing the upper-bound value of the
-parameter; \* `tophat` for the top-hat prior proposed by Jeffreys
-(1935), a simpler way to handle the case of a location parameter that is
-known to lie between a lower bound and an upper bound: in this case,
-there should be two further columns in the relevant row of the table,
-with the third column containing the lower-bound value of the parameter,
-and the fourth column containing the upper-bound value of the parameter;
-\* `tophatwithwings` for the top-hat distribution with wings proposed as
-a prior over certain parameters by Hatton (2003) : in this case, there
-should be two further columns in the relevant row of the table, with the
-third column containing the value of the parameter at the lower edge of
-the top hat, and the fourth column containing the value of the parameter
-at the upper edge of the top-hat; \* `truncatedinverse` for the prior
-distribution, as proposed by Jeffreys (1935), over the parameter that is
-equivalent to a top-hat prior over the natural logarithm of the
-parameter, i.e. the prior that is to a scale parameter as a top-hat
-prior is to a location parameter: in this case, there should be two
-further columns in the relevant row of the table, with the third column
-containing the lower-bound value of the parameter, and the fourth column
-containing the upper-bound value of the parameter; or \* `gaussian` for
-a Gaussian prior, which might (Militkỳ and Čáp 1987) be a suitable prior
-over a parameter if, e.g., that parameter has been the subject of a
-previous cycle of estimation from data: in this case, there should be
-two further columns in the relevant row of the table, with the third
-column containing the mean of the Gaussian, and the fourth column
-containing the standard deviation of the Gaussian.
+of:
+
+-   `lorentzian` for the Lorentzian prior proposed by Jeffreys (1961) as
+    a noniformative prior for a location parameter: be aware that,
+    because this gives special status to unity as a parameter value, it
+    can (Jeffreys 1961) be appropriate only if the parameter has
+    quantity dimension 1;
+-   `loglorentzian` for the prior distribution over the parameter that
+    is equivalent to a Lorentzian prior over the natural logarithm of
+    the parameter, i.e. the prior that is to a scale parameter as a
+    Lorentzian prior is to a location parameter;
+-   `truncatedquadratic` for the truncated quadratic prior proposed by
+    Jeffreys (1961) as an otherwise noniformative prior for a parameter
+    whose value is known to lie between a lower bound and an upper
+    bound: in this case, there should be two further columns in the
+    relevant row of the table, with the third column containing the
+    lower-bound value of the parameter, and the fourth column containing
+    the upper-bound value of the parameter;
+-   `tophat` for the top-hat prior proposed by Jeffreys (1935), a
+    simpler way to handle the case of a location parameter that is known
+    to lie between a lower bound and an upper bound: in this case, there
+    should be two further columns in the relevant row of the table, with
+    the third column containing the lower-bound value of the parameter,
+    and the fourth column containing the upper-bound value of the
+    parameter;
+-   `tophatwithwings` for the top-hat distribution with wings proposed
+    as a prior over certain parameters by Hatton (2003) : in this case,
+    there should be two further columns in the relevant row of the
+    table, with the third column containing the value of the parameter
+    at the lower edge of the top hat, and the fourth column containing
+    the value of the parameter at the upper edge of the top-hat;
+-   `truncatedinverse` for the prior distribution, as proposed by
+    Jeffreys (1935), over the parameter that is equivalent to a top-hat
+    prior over the natural logarithm of the parameter, i.e. the prior
+    that is to a scale parameter as a top-hat prior is to a location
+    parameter: in this case, there should be two further columns in the
+    relevant row of the table, with the third column containing the
+    lower-bound value of the parameter, and the fourth column containing
+    the upper-bound value of the parameter; or
+-   `gaussian` for a Gaussian prior, which might (Militkỳ and Čáp 1987)
+    be a suitable prior over a parameter if, e.g., that parameter has
+    been the subject of a previous cycle of estimation from data: in
+    this case, there should be two further columns in the relevant row
+    of the table, with the third column containing the mean of the
+    Gaussian, and the fourth column containing the standard deviation of
+    the Gaussian.
 
 Demonstration
 =============
@@ -377,21 +393,27 @@ from this even simpler toy problem can, alternatively, be determined by
 hand or using a computer algebra system. The file `otherway.mc`, within
 the `EXAMPLES` directory, is a script for the Maxima computer algebra
 system that does exactly this, and reveals that the results should be:
-\* posterior expectation value and marginal standard error of gradient
-parameter: 7.41(46); \* posterior expectation value and marginal
-standard error of intercept parameter: 7.94(61); \* posterior
-expectation value and conditional standard error of gradient parameter:
-7.41(31); \* posterior expectation value and conditional standard error
-of intercept parameter: 7.94(41); \* first "mutually independent
-posterior distributions" linear combination of parameters and its
-posterior expectation value and standard error:
-0.8257223485361581\*gradient+0.5640767705977013\*intercept = 10.60(37);
-\* second "mutually independent posterior distributions" linear
-combination of parameters and its posterior expectation value and
-standard error:
-0.5640767705977012\*gradient-0.825722348536158\*intercept = -2.4(1.0);
-\* marginal likelihood: 4.053649961753398e-6; \* natural logarithm of
-marginal likelihood: -12.4158928575811.
+
+-   posterior expectation value and marginal standard error of gradient
+    parameter: 7.41(46);
+-   posterior expectation value and marginal standard error of intercept
+    parameter: 7.94(61);
+-   posterior expectation value and conditional standard error of
+    gradient parameter: 7.41(31);
+-   posterior expectation value and conditional standard error of
+    intercept parameter: 7.94(41);
+-   first "mutually independent posterior distributions" linear
+    combination of parameters and its posterior expectation value and
+    standard error:
+    0.8257223485361581\*gradient+0.5640767705977013\*intercept =
+    10.60(37);
+-   second "mutually independent posterior distributions" linear
+    combination of parameters and its posterior expectation value and
+    standard error:
+    0.5640767705977012\*gradient-0.825722348536158\*intercept =
+    -2.4(1.0);
+-   marginal likelihood: 4.053649961753398e-6;
+-   natural logarithm of marginal likelihood: -12.4158928575811.
 
 ::: {#refs .references}
 ::: {#ref-Ando:1965:BAI}
