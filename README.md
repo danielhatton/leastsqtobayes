@@ -415,7 +415,8 @@ system that does exactly this, and reveals that the results should be:
 -   marginal likelihood: 4.053649961753398e-6;
 -   natural logarithm of marginal likelihood: -12.4158928575811.
 
-------------------------------------------------------------------------
+References {#references .unnumbered}
+==========
 
 ::: {#refs .references}
 ::: {#ref-Ando:1965:BAI}
