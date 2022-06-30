@@ -150,7 +150,7 @@ install : leastsqtobayes dothefit.gp pickout.gp
 
 README.md : README_raw.md README.bib
 
-	system("pandoc README_raw.md -t markdown-citations -o README.md --bibliography README.bib") ;
+	system("pandoc README_raw.md -t gfm-citations -o README.md --bibliography README.bib") ;
 
 clean :
 
