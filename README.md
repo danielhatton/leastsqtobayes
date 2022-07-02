@@ -241,10 +241,12 @@ the parameters, given the data set:
 # Prerequisites
 
 To install and use `leastsqtobayes`, you will need a system on which
-Perl, Gnuplot (version 5.0 or higher), Octave, and GNU Make are
-installed; to explore fully the available test case (see the “testing”
-section below), you will also need the Maxima computer algebra system
-(Dautermann 2017).
+Perl (Wall 2022), Gnuplot (version 5.0 or higher) (Williams and Kelley
+2015), Octave (Eaton 2012), and GNU Make (Stallman, McGrath, and Smith
+2020) are installed; to explore fully the available test case (see the
+“testing” section below), you will also need the Maxima computer
+algebra system (Dautermann 2017). To compile this README from source
+(with `make README.md`), you will also need Pandoc (MacFarlane 2022).
 
 # Installation
 
@@ -557,6 +559,13 @@ Investig. Oper.* 31 (1): 223–37. <https://doi.org/10.1007/BF02888353>.
 
 </div>
 
+<div id="ref-MacFarlane:2022:PUG">
+
+MacFarlane, John. 2022. *Pandoc User’s Guide*.
+<https://web.archive.org/web/20220629231710/https://pandoc.org/MANUAL.html>.
+
+</div>
+
 <div id="ref-MacKay:1992:BI">
 
 MacKay, David J\[ohn\] C\[ameron\]. 1992. “Bayesian Interpolation.”
@@ -593,6 +602,20 @@ A. K. Peters. AKP Classics. Boca Raton: CRC Press.
 Orear, Jay. 1982. “Least Squares When Both Variables Have
 Uncertainties.” *Am. J. Phys.* 50 (10): 912–16.
 <https://doi.org/10.1119/1.12972>.
+
+</div>
+
+<div id="ref-Stallman:2020:GM">
+
+Stallman, Richard, Roland McGrath, and Paul D. Smith. 2020. *GNU Make*.
+<https://web.archive.org/web/20200121090700/https://www.gnu.org/software/make/manual/html_node/index.html>.
+
+</div>
+
+<div id="ref-Wall:2022:P">
+
+Wall, Larry. 2022. *Perl*.
+<https://web.archive.org/web/20220629183507/https://perldoc.perl.org/perl>.
 
 </div>
 

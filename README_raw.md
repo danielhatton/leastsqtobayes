@@ -251,10 +251,13 @@ over the parameters, given the data set:
 # Prerequisites
 
 To install and use `leastsqtobayes`, you will need a system on which
-Perl, Gnuplot (version 5.0 or higher), Octave, and GNU Make are
-installed; to explore fully the available test case (see the "testing"
-section below), you will also need the Maxima computer algebra system
-[@Dautermann:2017:MM].
+Perl [@Wall:2022:P], Gnuplot (version 5.0 or higher)
+[@Williams:2015:GRM], Octave [@Eaton:2012:GOR], and GNU Make
+[@Stallman:2020:GM] are installed; to explore fully the available test
+case (see the "testing" section below), you will also need the Maxima
+computer algebra system [@Dautermann:2017:MM].  To compile this README
+from source (with `make README.md`), you will also need Pandoc
+[@MacFarlane:2022:PUG].
 
 # Installation
 
