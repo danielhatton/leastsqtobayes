@@ -35,7 +35,7 @@ directly in model comparison.
 
 # Scope
 
-The situation to which this softare is relevant is one in which:
+The situation to which this software is relevant is one in which:
 
   - it is thought possible that the value of some dependent variable
     depends on the values of some collection of zero or more independent
@@ -311,7 +311,7 @@ column. The string in the second column of any given row should be one
 of:
 
   - `lorentzian` for the Lorentzian prior proposed by Jeffreys (1961) as
-    a noniformative prior for a location parameter: be aware that,
+    a noninformative prior for a location parameter: be aware that,
     because this gives special status to unity as a parameter value, it
     can (Jeffreys 1961) be appropriate only if the parameter has
     quantity dimension 1;
@@ -320,7 +320,7 @@ of:
     the parameter, i.e. the prior that is to a scale parameter as a
     Lorentzian prior is to a location parameter;
   - `truncatedquadratic` for the truncated quadratic prior proposed by
-    Jeffreys (1961) as an otherwise noniformative prior for a parameter
+    Jeffreys (1961) as an otherwise noninformative prior for a parameter
     whose value is known to lie between a lower bound and an upper
     bound: in this case, there should be two further columns in the
     relevant row of the table, with the third column containing the
