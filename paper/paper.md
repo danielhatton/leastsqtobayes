@@ -81,9 +81,9 @@ present package, `leastsqtobayes`, comes in.  It is written in a
 combination of three languages: Gnuplot [@Williams:2015:GRM], which
 has powerful built-in capabilities for least-squares fitting; Octave
 [@Eaton:2012:GOR], which has the matrix and scalar arithmetic
-capabilities for the conversion; and Perl, with the text-processing
-capabilities to create bespoke sections Octave code containing results
-produced by Gnuplot and vice versa.
+capabilities for the conversion; and Perl [@Wall:2022:P], with the
+text-processing capabilities to create bespoke sections Octave code
+containing results produced by Gnuplot and vice versa.
 
 `leastsqtobayes` takes as input an empirical data set; a formula
 representing a model; and specifications of the prior
