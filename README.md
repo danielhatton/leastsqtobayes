@@ -538,8 +538,8 @@ University.
 
 <div id="ref-Legendre:1805:NMD">
 
-Legendre, A. M. 1805. *NOUVELLES MÉTHODES Pour La dÉTERMINATION Des
-Orbites Des ComÈTES*. Paris: Firmin Didot.
+Legendre, A. M. 1805. *Nouvelles Méthodes Pour La détermination Des
+Orbites Des Comètes*. Paris: Firmin Didot.
 <https://gallica.bnf.fr/ark:/12148/bpt6k15209372#>.
 
 </div>
